@@ -20,7 +20,7 @@ class MemberServiceTest {
     @Autowired
     MemberRepository memberRepository;
     @Test
-    public void 회원가입(){
+    public void 회원가입()throws Exception{
         //given
         Member member = new Member();
         member.setName("kim");
