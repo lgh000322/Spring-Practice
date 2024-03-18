@@ -37,5 +37,5 @@ out/
 .vscode/
 
 ### css, JS ###
-/src/main/resources/static/css/
+**/src/main/resources/static/css/
 **/src/main/resources/static/js/
