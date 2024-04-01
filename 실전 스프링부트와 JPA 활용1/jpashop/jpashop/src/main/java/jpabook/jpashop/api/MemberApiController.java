@@ -6,7 +6,6 @@ import jpabook.jpashop.service.MemberService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,7 +29,7 @@ public class MemberApiController {
                 .map(m -> new MemberDTO(m.getName()))
                 .collect(Collectors.toList());
 
-        return new Result(collect);
+        return new Result<>(collect);
     }
 
     @Data

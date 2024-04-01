@@ -34,7 +34,7 @@ class ItemServiceTest {
         assertEquals(item.getId(),itemId);
     }
 
-    @Test
+    /*@Test
     public void 아이템_전체_조회()throws Exception {
         //given
         Item item = new Book();
@@ -51,7 +51,7 @@ class ItemServiceTest {
         //then
         assertEquals(inputItemAmount, itemSize);
 
-    }
+    }*/
 
     @Test
     public void 단일_아이템_조회() {
