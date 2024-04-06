@@ -4,6 +4,6 @@ import lombok.Data;
 
 @Data
 public class HelloData {
-    private String userName;
+    private String username;
     private int age;
 }

@@ -21,7 +21,7 @@ public class ResponseJsonServlet extends HttpServlet {
         response.setCharacterEncoding("utf-8");
 
         HelloData helloData = new HelloData();
-        helloData.setUserName("kim");
+        helloData.setUsername("kim");
         helloData.setAge(20);
 
         //{"userName":"kim", "age":20}
