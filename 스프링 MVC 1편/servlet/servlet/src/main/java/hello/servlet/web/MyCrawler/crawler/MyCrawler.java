@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import java.time.Duration;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Controller
 public class MyCrawler {
@@ -38,12 +39,12 @@ public class MyCrawler {
         for (WebElement element : allElements) {
             System.out.println(element.getTagName() + ": " + element.getText());
         }
-
         // 태그명으로 요소 찾기
+
         try {
             WebElement h1Element = driver.findElement(By.tagName("h1"));
             System.out.println("h1 태그의 텍스트: " + h1Element.getText());
-        } catch (Exception e) {
+        } catch (NoSuchElementException e) {
             System.out.println("MyCrawler.getCrawlContent_E1");
         }
 
@@ -51,7 +52,7 @@ public class MyCrawler {
         try {
             WebElement exampleElement = driver.findElement(By.className("example"));
             System.out.println(".example 클래스를 가진 요소의 텍스트: " + exampleElement.getText());
-        } catch (Exception e) {
+        } catch (NoSuchElementException e) {
             System.out.println("MyCrawler.getCrawlContent_E2");
         }
 
@@ -59,7 +60,7 @@ public class MyCrawler {
         try {
             WebElement inputElement = driver.findElement(By.name("username"));
             System.out.println("name 속성이 'username'인 요소의 태그명: " + inputElement.getTagName());
-        } catch (Exception e) {
+        } catch (NoSuchElementException e) {
             System.out.println("MyCrawler.getCrawlContent_E3");
         }
 
