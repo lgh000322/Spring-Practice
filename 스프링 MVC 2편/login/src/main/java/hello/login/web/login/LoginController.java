@@ -100,9 +100,19 @@ public class LoginController {
         return "redirect:/";
     }
 
-    @PostMapping("/logout")
+  //  @PostMapping("/logout")
     public String logoutV2(HttpServletRequest request) {
         sessionManager.expire(request);
+        return "redirect:/";
+    }
+
+    @PostMapping("/logout")
+    public String logoutV3(HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            //세션을 날리는 메소드
+            session.invalidate();
+        }
         return "redirect:/";
     }
 
