@@ -10,15 +10,17 @@ spring:
       ddl-auto: create
     properties:
       hibernate:
+       # show_sql: true
         format_sql: true
 
   application:
     name: querydsl
 
   #logging:
-  # level:
-  #   org.hibernate.SQL: trace
-  #   org.hibernate.orm.jdbc.bind: trace
+   #level:
+   #  org.hibernate.SQL: debug
+    # org.hibernate.orm.jdbc.bind: trace
+
 
 #debug: true
 
