@@ -17,11 +17,14 @@ import study.querydsl.dto.MemberSearchCondition;
 import study.querydsl.dto.MemberTeamDto;
 import study.querydsl.dto.QMemberTeamDto;
 import study.querydsl.entity.Member;
+import study.querydsl.entity.QMember;
+import study.querydsl.entity.QTeam;
 
 import java.util.List;
 
-import static study.querydsl.entity.QMember.member;
+import static study.querydsl.entity.QMember.*;
 import static study.querydsl.entity.QTeam.team;
+
 
 public class MemberRepositoryImpl extends QuerydslRepositorySupport implements MemberRepositoryCustom {
 
