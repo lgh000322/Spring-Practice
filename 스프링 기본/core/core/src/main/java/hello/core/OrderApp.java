@@ -1,3 +1,4 @@
+/*
 package hello.core;
 
 import hello.core.member.Grade;
@@ -12,9 +13,11 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 
 public class OrderApp {
     public static void main(String[] args) {
-     /*   AppConfig appConfig = new AppConfig();
+     */
+/*   AppConfig appConfig = new AppConfig();
         MemberService memberService = appConfig.memberService();
-        OrderService orderService = appConfig.orderService();*/
+        OrderService orderService = appConfig.orderService();*//*
+
 
         ApplicationContext applicationContext = new AnnotationConfigApplicationContext(AppConfig.class);
         MemberService memberService = applicationContext.getBean("memberService", MemberService.class);
@@ -31,3 +34,4 @@ public class OrderApp {
         System.out.println("order.calculatePrice() = " + order.calculatePrice());
     }
 }
+*/

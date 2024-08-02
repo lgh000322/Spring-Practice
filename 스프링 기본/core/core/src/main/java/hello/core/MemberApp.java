@@ -1,3 +1,4 @@
+/*
 package hello.core;
 
 import hello.core.member.Grade;
@@ -25,3 +26,4 @@ public class MemberApp {
         System.out.println("findMember = " + findMember.getName());
     }
 }
+*/

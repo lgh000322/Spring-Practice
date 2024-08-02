@@ -1,3 +1,4 @@
+/*
 package hello.core;
 
 import hello.core.discount.DiscountPolicy;
@@ -35,3 +36,4 @@ public class AppConfig {
         return new RateDiscountPolicy();
     }
 }
+*/
