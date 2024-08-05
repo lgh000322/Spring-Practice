@@ -3,16 +3,26 @@ package hello.jdbc.repository;
 import hello.jdbc.connection.DBConnectionUtil;
 import hello.jdbc.domain.Member;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.support.JdbcUtils;
 
+import javax.sql.DataSource;
 import java.sql.*;
 import java.util.NoSuchElementException;
 
 @Slf4j
-public class MemberRepositoryV0 {
+public class MemberRepositoryV1 {
+
+
+    private final DataSource dataSource;
+    @Autowired
+    public MemberRepositoryV1(DataSource dataSource) {
+        this.dataSource = dataSource;
+    }
 
     public Member save(Member member) throws SQLException {
         String sql = "insert into member(member_id, money) values (?, ?)";
-        
+
         Connection conn = null;
         PreparedStatement pstmt = null;
 
@@ -86,8 +96,8 @@ public class MemberRepositoryV0 {
     public void delete(String memberId) throws SQLException {
         String sql = "delete from member where member_id = ?";
 
-        Connection conn=null;
-        PreparedStatement pstmt=null;
+        Connection conn = null;
+        PreparedStatement pstmt = null;
 
         try {
             conn = getConnection();
@@ -97,40 +107,20 @@ public class MemberRepositoryV0 {
         } catch (SQLException e) {
             log.info("db error={}", e);
             throw e;
-        }finally{
+        } finally {
             close(conn, pstmt, null);
         }
     }
 
     private void close(Connection connection, Statement statement, ResultSet resultSet) {
-
-        if (resultSet != null) {
-            try {
-                resultSet.close();
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
-
-        }
-
-        if (statement != null) {
-            try {
-                statement.close();
-            } catch (SQLException e) {
-                log.info("error", e);
-            }
-        }
-
-        if (connection != null) {
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                log.info("error", e);
-            }
-        }
+        JdbcUtils.closeResultSet(resultSet);
+        JdbcUtils.closeStatement(statement);
+        JdbcUtils.closeConnection(connection);
     }
 
-    private Connection getConnection() {
-        return DBConnectionUtil.getConnection();
+    private Connection getConnection() throws SQLException {
+        Connection con = dataSource.getConnection();
+        log.info("get connection={}, class={}", con, con.getClass());
+        return con;
     }
 }
