@@ -22,10 +22,7 @@ public class MemberServiceV2 {
         Connection con = dataSource.getConnection();
         try {
             con.setAutoCommit(false);
-            Member fromMember = memberRepository.findById(con, fromid);
-            Member toMember = memberRepository.findById(con, toId);
-
-            bizLogic(fromid, toId, money, con, fromMember, toMember);
+            bizLogic(fromid, toId, money, con);
         } catch (Exception e) {
             con.rollback();
             throw new IllegalStateException(e);
@@ -35,12 +32,15 @@ public class MemberServiceV2 {
 
     }
 
-    private void bizLogic(String fromid, String toId, int money, Connection con, Member fromMember, Member toMember) throws SQLException {
+    private void bizLogic(String fromid, String toId, int money, Connection con) throws SQLException {
+        Member fromMember = memberRepository.findById(con, fromid);
+        Member toMember = memberRepository.findById(con, toId);
         memberRepository.update(con, fromid, fromMember.getMoney() - money);
         validation(toMember);
         memberRepository.update(con, toId, toMember.getMoney() + money);
         con.commit();
     }
+
 
     private static void validation(Member toMember) {
         if (toMember.getMemberId().equals("ex")) {
