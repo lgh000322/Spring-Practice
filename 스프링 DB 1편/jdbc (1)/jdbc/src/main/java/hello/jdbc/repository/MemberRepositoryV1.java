@@ -34,7 +34,7 @@ public class MemberRepositoryV1 {
             pstmt.executeUpdate();
             return member;
         } catch (SQLException e) {
-            log.info("db error: {}", e);
+            log.info("db error", e);
             throw e;
         } finally {
             close(conn, pstmt, null);
@@ -65,7 +65,7 @@ public class MemberRepositoryV1 {
             }
 
         } catch (SQLException e) {
-            log.info("db error={}", e);
+            log.info("db error", e);
             throw e;
         } finally {
             close(conn, pstmt, rs);
@@ -105,7 +105,7 @@ public class MemberRepositoryV1 {
             pstmt.setString(1, memberId);
             pstmt.executeUpdate();
         } catch (SQLException e) {
-            log.info("db error={}", e);
+            log.info("db error", e);
             throw e;
         } finally {
             close(conn, pstmt, null);
