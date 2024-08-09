@@ -13,7 +13,8 @@ import java.util.Comparator;
 
 //@Import(MemoryConfig.class)
 //@Import(JDBCTemplateV1Config.class)
-@Import(JDBCTemplateV2Config.class)
+//@Import(JDBCTemplateV2Config.class)
+@Import(JDBCTemplateV3Config.class)
 @SpringBootApplication(scanBasePackages = "hello.itemservice.web")
 public class ItemServiceApplication {
 
