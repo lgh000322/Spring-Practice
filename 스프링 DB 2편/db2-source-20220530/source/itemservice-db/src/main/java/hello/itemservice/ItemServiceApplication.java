@@ -17,7 +17,8 @@ import java.util.Comparator;
 //@Import(MemoryConfig.class)
 //@Import(JDBCTemplateV1Config.class)
 //@Import(JDBCTemplateV2Config.class)
-@Import(JDBCTemplateV3Config.class)
+//@Import(JDBCTemplateV3Config.class)
+@Import(MybatisConfig.class)
 @Slf4j
 @SpringBootApplication(scanBasePackages = "hello.itemservice.web")
 public class ItemServiceApplication {
