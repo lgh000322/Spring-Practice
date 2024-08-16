@@ -1,6 +1,7 @@
 package hello.springtx.propagation;
 
 import lombok.extern.slf4j.Slf4j;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -9,6 +10,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.UnexpectedRollbackException;
 import org.springframework.transaction.interceptor.DefaultTransactionAttribute;
 
 import javax.sql.DataSource;
@@ -90,6 +92,40 @@ public class BasicTxTest {
 
         log.info("외부 트랜잭션 커밋");
         txManager.commit(outerTx);
+
+    }
+    @Test
+    public void outer_rollback() throws Exception{
+        log.info("외부 트랜잭션 시작");
+        TransactionStatus outerTx = txManager.getTransaction(new DefaultTransactionAttribute());
+        log.info("outerTx={}", outerTx.isNewTransaction());
+
+        log.info("내부 트랜잭션 시작");
+        TransactionStatus innerTx = txManager.getTransaction(new DefaultTransactionAttribute());
+        log.info("innerTx={}", innerTx.isNewTransaction());
+        log.info("내부 트랜잭션 커밋");
+        txManager.commit(innerTx);
+
+        log.info("외부 트랜잭션 롤백");
+        txManager.rollback(outerTx);
+
+    }
+
+    @Test
+    public void inner_rollback() throws Exception{
+        log.info("외부 트랜잭션 시작");
+        TransactionStatus outerTx = txManager.getTransaction(new DefaultTransactionAttribute());
+        log.info("outerTx={}", outerTx.isNewTransaction());
+
+        log.info("내부 트랜잭션 시작");
+        TransactionStatus innerTx = txManager.getTransaction(new DefaultTransactionAttribute());
+        log.info("innerTx={}", innerTx.isNewTransaction());
+        log.info("내부 트랜잭션 롤백");
+        txManager.rollback(innerTx);
+
+        log.info("외부 트랜잭션 커밋");
+        Assertions.assertThatThrownBy(() -> txManager.commit(outerTx))
+                .isInstanceOf(UnexpectedRollbackException.class);
 
     }
 
