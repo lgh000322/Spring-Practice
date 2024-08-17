@@ -9,11 +9,13 @@ import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.UnexpectedRollbackException;
 import org.springframework.transaction.interceptor.DefaultTransactionAttribute;
 
 import javax.sql.DataSource;
+import java.util.concurrent.ExecutorService;
 
 @SpringBootTest
 @Slf4j
@@ -24,6 +26,7 @@ public class BasicTxTest {
 
     @TestConfiguration
     static class BasicTxTestConfig{
+
         @Bean
         public PlatformTransactionManager platformTransactionManager(DataSource dataSource){
             return new DataSourceTransactionManager(dataSource);
@@ -126,6 +129,27 @@ public class BasicTxTest {
         log.info("외부 트랜잭션 커밋");
         Assertions.assertThatThrownBy(() -> txManager.commit(outerTx))
                 .isInstanceOf(UnexpectedRollbackException.class);
+
+    }
+
+    @Test
+    public void inner_rollback_required_new() throws Exception{
+        log.info("외부 트랜잭션 시작");
+        TransactionStatus tx1 = txManager.getTransaction(new DefaultTransactionAttribute());
+        log.info("outerTx={}", tx1.isNewTransaction());
+
+        log.info("내부 트랜잭션 시작");
+        DefaultTransactionAttribute definition = new DefaultTransactionAttribute();
+        definition.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRES_NEW);
+        TransactionStatus tx2 = txManager.getTransaction(definition);
+
+        log.info("innerTx={}", tx2.isNewTransaction());
+
+        log.info("내부 트랜잭션 롤백");
+        txManager.rollback(tx2);
+
+        log.info("외부 트랜잭션 커밋");
+        txManager.commit(tx1);
 
     }
 
