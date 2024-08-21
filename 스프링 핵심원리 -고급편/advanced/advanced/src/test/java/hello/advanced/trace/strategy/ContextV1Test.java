@@ -28,6 +28,15 @@ public class ContextV1Test {
         ContextV1 contextV2 = new ContextV1(strategyLogic2);
         contextV2.execute();
     }
+
+    @Test
+    public void strategyV2() throws Exception{
+        ContextV1 contextV1 = new ContextV1(() -> log.info("비즈니스 로직 1 실행"));
+        ContextV1 contextV2 = new ContextV1(() -> log.info("비즈니스 로직 2 실행"));
+
+        contextV1.execute();
+        contextV2.execute();
+    }
     private void logic1() {
         long startTime = System.currentTimeMillis();
         //비즈니스 로직 실행(핵심 기능)
