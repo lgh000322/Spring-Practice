@@ -50,7 +50,6 @@ public class ExTranslatorV1Test {
                 log.info("saveId={}", memberId);
             } catch (MyDuplicateKeyException e) {
                 log.info("키 중복, 복구 시도");
-
                 String tryId = generateNewId(memberId);
                 log.info("tryId={}", tryId);
                 repository.save(new Member(tryId, 0));

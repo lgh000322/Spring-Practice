@@ -7,7 +7,7 @@ public class RealSubject implements Subject{
     @Override
     public String operation() {
         log.info("실제 호출");
-        sleep(1000);
+        sleep(10000);
         return "data";
     }
 
