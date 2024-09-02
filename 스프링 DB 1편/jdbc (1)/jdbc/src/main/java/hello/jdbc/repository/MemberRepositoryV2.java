@@ -98,7 +98,6 @@ public class MemberRepositoryV2 {
         } finally {
             JdbcUtils.closeResultSet(rs);
             JdbcUtils.closeStatement(pstmt);
-
         }
     }
 

@@ -4,6 +4,7 @@ import hello.proxy.pureproxy.proxy.code.CacheProxy;
 import hello.proxy.pureproxy.proxy.code.ProxyPatternClient;
 import hello.proxy.pureproxy.proxy.code.RealSubject;
 import org.junit.jupiter.api.Test;
+import org.springframework.cache.Cache;
 
 public class ProxyPatternTest {
 
@@ -19,7 +20,10 @@ public class ProxyPatternTest {
 
     @Test
     public void cacheProxyTest() throws Exception{
-        ProxyPatternClient client = new ProxyPatternClient(new CacheProxy(new RealSubject()));
+        RealSubject realSubject = new RealSubject();
+        CacheProxy cacheProxy = new CacheProxy(realSubject);
+        ProxyPatternClient client = new ProxyPatternClient(cacheProxy);
+
         client.execute();
         client.execute();
         client.execute();
