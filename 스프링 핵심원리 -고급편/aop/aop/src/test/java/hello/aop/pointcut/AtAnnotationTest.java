@@ -21,7 +21,7 @@ public class AtAnnotationTest {
     @Test
     void success() {
         log.info("memberService proxy={}", memberService.getClass());
-        System.out.println(memberService.hello("hello"));
+        System.out.println(memberService.hello( "hello"));
     }
 
 

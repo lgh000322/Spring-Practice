@@ -14,12 +14,16 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@RequiredArgsConstructor
 @Transactional
 public class ItemServiceV2 implements ItemService {
 
     private final ItemRepositoryV2 itemRepositoryV2;
     private final ItemQueryRepositoryV2 itemQueryRepositoryV2;
+
+    public ItemServiceV2(ItemRepositoryV2 itemRepositoryV2, ItemQueryRepositoryV2 itemQueryRepositoryV2) {
+        this.itemRepositoryV2 = itemRepositoryV2;
+        this.itemQueryRepositoryV2 = itemQueryRepositoryV2;
+    }
 
     @Override
     public Item save(Item item) {
