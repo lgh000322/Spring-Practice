@@ -1,5 +1,6 @@
 package redis_in_spring.redis_practice.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
@@ -11,10 +12,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import redis_in_spring.redis_practice.entity.Board;
+import redis_in_spring.redis_practice.entity.RedisEntity;
 import redis_in_spring.redis_practice.service.BoardService;
+import redis_in_spring.redis_practice.service.RedisService;
 
 import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicLong;
 
 @RestController
 @RequiredArgsConstructor
@@ -23,6 +28,8 @@ public class BoardController {
 
     private final BoardService boardService;
     private final RedisTemplate<String, Object> redisTemplate;
+    private final RedisService redisService;
+    private static AtomicLong redisId = new AtomicLong(1L);
 
     @GetMapping("/boards")
     public List<Board> getBoards(@RequestParam(defaultValue = "1", name = "page") int page,
@@ -68,5 +75,31 @@ public class BoardController {
 
         return "ok";
 
+    }
+
+    @GetMapping("/redis/repository/save")
+    public RedisEntity redisRepositorySave() {
+        RedisEntity redisEntity = RedisEntity.builder()
+                .id(redisId.get())
+                .text("예시 텍스트")
+                .now(LocalDateTime.now())
+                .build();
+
+        RedisEntity save = redisService.save(redisEntity);
+        log.info("save={}",save.toString());
+        increaseAtomicLong();
+
+        return save;
+    }
+
+    @GetMapping("/redis/repository/find")
+    public RedisEntity redisRepositoryFind(@RequestParam(name = "id") Long id) {
+        RedisEntity foundedRedisEntity = redisService.findById(id);
+        log.info("founded={}", foundedRedisEntity.toString());
+        return foundedRedisEntity;
+    }
+
+    private void increaseAtomicLong() {
+        redisId.set(redisId.get() + 1);
     }
 }
